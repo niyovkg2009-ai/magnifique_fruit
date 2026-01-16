@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Magnifique Fruit Trading - Fresh from Rwanda</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height:1.6; color:#333; background:#f8f9f5; }
+    nav { position:fixed; top:0; width:100%; background:#1a5c38; padding:1rem 0; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.2); }
+    nav ul { list-style:none; display:flex; justify-content:center; gap:2.5rem; }
+    nav a { color:white; text-decoration:none; font-weight:bold; font-size:1.1rem; padding:0.6rem 1.2rem; transition:all 0.3s; border-radius:5px; }
+    nav a:hover, nav a.active { background:#ff8c00; color:white; }
+    section { min-height:100vh; padding:8rem 5% 4rem; display:none; }
+    section.active { display:block; }
+    #home { 
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+                  url('https://thumbs.dreamstime.com/b/tropical-fruits-famous-market-funchal-madeira-island-portugal-exotic-fruit-banana-mango-passion-avocado-colorful-food-159999458.jpg') center/cover no-repeat;
+      color:white; text-align:center;
+    }
+    #about, #portfolio { background:#fff; }
+    #services { background:#f0f7f4; }
+    #contact { background:#1a5c38; color:white; }
+    .container { max-width:1200px; margin:0 auto; }
+    h1, h2 { margin-bottom:1.5rem; }
+    .fruits-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem; margin-top:2rem; }
+    .fruit-item { background:white; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:transform 0.3s; text-align:center; }
+    .fruit-item:hover { transform:scale(1.05); }
+    .fruit-item img { width:100%; height:220px; object-fit:cover; }
+    .fruit-item h3 { padding:1rem; margin:0; background:#1a5c38; color:white; font-size:1.3rem; }
+    .fruit-item p { padding:0.5rem; color:#555; margin:0; }
+    .add-to-cart { background:#ff8c00; color:white; border:none; padding:0.8rem 1.5rem; margin:1rem auto; display:block; border-radius:8px; cursor:pointer; font-weight:bold; transition:0.3s; }
+    .add-to-cart:hover { background:#e07b00; }
+    
+    /* Cart Modal */
+    .cart-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2000; justify-content:center; align-items:center; }
+    .cart-content { background:white; padding:2rem; border-radius:12px; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; position:relative; }
+    .close-cart { position:absolute; top:10px; right:20px; font-size:2.5rem; cursor:pointer; color:#1a5c38; }
+    .cart-item { display:flex; align-items:center; margin:1rem 0; padding:1rem; border-bottom:1px solid #eee; }
+    .cart-item img { width:80px; height:80px; object-fit:cover; border-radius:8px; margin-right:1rem; }
+    .cart-item-info { flex:1; }
+    .cart-total { font-size:1.5rem; text-align:right; margin:1.5rem 0; font-weight:bold; color:#1a5c38; }
+    .remove-item { background:#c00; color:white; border:none; padding:0.6rem 1rem; border-radius:6px; cursor:pointer; }
+    
+    /* Floating Cart */
+    .cart-float { position:fixed; bottom:110px; right:40px; width:60px; height:60px; background:#ff8c00; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:1000; cursor:pointer; transition:0.3s; }
+    .cart-float:hover { transform:scale(1.1); background:#e07b00; }
+    .cart-count { position:absolute; top:-8px; right:-8px; background:#1a5c38; color:white; border-radius:50%; min-width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:0.9rem; font-weight:bold; padding:0 6px; }
+    
+    /* WhatsApp float (your existing one) */
+    .whatsapp-float { position:fixed; bottom:40px; right:40px; width:60px; height:60px; background:#25d366; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:1000; text-decoration:none; transition:0.3s; }
+    .whatsapp-float:hover { transform:scale(1.1); background:#20b358; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#about" class="nav-link">About Us</a></li>
+      <li><a href="#services" class="nav-link">Our Products</a></li>
+      <li><a href="#portfolio" class="nav-link">Gallery</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="home" class="active">
+    <div class="container">
+      <h1 style="font-size:3.8rem; margin-top:3rem; text-shadow:2px 2px 8px rgba(0,0,0,0.7);">Magnifique Fruit Trading</h1>
+      <p style="font-size:1.8rem; max-width:900px; margin:1.5rem auto; text-shadow:1px 1px 6px rgba(0,0,0,0.7);">Fresh, Sun-Ripened Tropical Fruits from Rwanda</p>
+      <p style="font-size:1.4rem;">Quality Produce for Local & Export Markets</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2 style="text-align:center; color:#1a5c38;">About Magnifique Fruit Trading</h2>
+      <div class="card" style="background:white; padding:2rem; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1); margin:2rem auto; max-width:800px;">
+        <p>We are a proud Kigali-based fruit trading company specializing in premium, fresh produce from Rwanda's fertile lands.</p>
+        <p>Committed to quality, sustainability, and reliable supply — serving local markets and international exporters.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <h2 style="text-align:center; color:#1a5c38;">Our Fresh Products</h2>
+      <div class="fruits-grid">
+        <div class="fruit-item" data-name="Avocados" data-price="5.00" data-img="https://static.vecteezy.com/system/resources/previews/069/154/801/non_2x/close-up-of-ripe-avocados-one-halved-showing-seed-and-flesh-photo.jpeg">
+          <img src="https://static.vecteezy.com/system/resources/previews/069/154/801/non_2x/close-up-of-ripe-avocados-one-halved-showing-seed-and-flesh-photo.jpeg" alt="Avocados">
+          <h3>Avocados</h3>
+          <p>Premium Hass – $5.00 / kg</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Bananas" data-price="3.00" data-img="https://media.istockphoto.com/id/882306814/photo/bunch-of-raw-ripe-organic-yellow-bananas-on-wooden-background.jpg?s=612x612&w=is&k=20&c=D4OJDfy9LfG7zEDfY29lrnmYe9hs1paKPyQivPzcB3w=">
+          <img src="https://media.istockphoto.com/id/882306814/photo/bunch-of-raw-ripe-organic-yellow-bananas-on-wooden-background.jpg?s=612x612&w=is&k=20&c=D4OJDfy9LfG7zEDfY29lrnmYe9hs1paKPyQivPzcB3w=" alt="Bananas">
+          <h3>Bananas</h3>
+          <p>Sweet Cavendish – $3.00 / bunch</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Pineapples" data-price="4.50" data-img="https://thumbs.dreamstime.com/b/close-up-view-top-juicy-pineapple-slice-reveals-its-intricate-natural-pattern-vibrant-yellow-flesh-400555271.jpg">
+          <img src="https://thumbs.dreamstime.com/b/close-up-view-top-juicy-pineapple-slice-reveals-its-intricate-natural-pattern-vibrant-yellow-flesh-400555271.jpg" alt="Pineapples">
+          <h3>Pineapples</h3>
+          <p>Juicy & Sweet – $4.50 / unit</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Passion Fruits" data-price="6.00" data-img="https://thumbs.dreamstime.com/b/passion-fruit-halves-displaying-seeds-lush-green-leaves-cut-reveal-yellow-amidst-greenery-creating-vibrant-tropical-feel-375014848.jpg">
+          <img src="https://thumbs.dreamstime.com/b/passion-fruit-halves-displaying-seeds-lush-green-leaves-cut-reveal-yellow-amidst-greenery-creating-vibrant-tropical-feel-375014848.jpg" alt="Passion Fruits">
+          <h3>Passion Fruits</h3>
+          <p>Vibrant Purple & Yellow – $6.00 / kg</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Mangoes" data-price="4.00" data-img="https://thumbs.dreamstime.com/b/fresh-ripe-mangoes-stacked-together-showcasing-their-vibrant-yellow-color-close-up-view-piled-highlighting-bright-hue-369140290.jpg">
+          <img src="https://thumbs.dreamstime.com/b/fresh-ripe-mangoes-stacked-together-showcasing-their-vibrant-yellow-color-close-up-view-piled-highlighting-bright-hue-369140290.jpg" alt="Mangoes">
+          <h3>Mangoes</h3>
+          <p>Seasonal Sweet – $4.00 / kg</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Oranges" data-price="3.50" data-img="https://thumbs.dreamstime.com/b/tropical-fruit-market-stall-displaying-bananas-dragon-mangoes-oranges-kuantan-malaysia-march-vibrant-hanging-bunches-colorful-427133869.jpg">
+          <img src="https://thumbs.dreamstime.com/b/tropical-fruit-market-stall-displaying-bananas-dragon-mangoes-oranges-kuantan-malaysia-march-vibrant-hanging-bunches-colorful-427133869.jpg" alt="Oranges">
+          <h3>Oranges</h3>
+          <p>Citrus Sweet – $3.50 / kg</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="fruit-item" data-name="Papayas" data-price="5.50" data-img="https://thumbs.dreamstime.com/b/tropical-fruits-famous-market-funchal-madeira-island-portugal-exotic-fruit-banana-mango-passion-avocado-colorful-food-159999458.jpg">
+          <img src="https://thumbs.dreamstime.com/b/tropical-fruits-famous-market-funchal-madeira-island-portugal-exotic-fruit-banana-mango-passion-avocado-colorful-food-159999458.jpg" alt="Papayas">
+          <h3>Papayas</h3>
+          <p>Orange Flesh Sweet – $5.50 / unit</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="container">
+      <h2 style="text-align:center; color:#1a5c38;">Fruit Gallery</h2>
+      <div class="gallery-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-top:2rem;">
+        <img src="https://thumbs.dreamstime.com/b/tropical-fruit-market-stall-displaying-bananas-dragon-mangoes-oranges-kuantan-malaysia-march-vibrant-hanging-bunches-colorful-427133869.jpg" alt="Colorful Market" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <img src="https://thumbs.dreamstime.com/b/tropical-fruits-famous-market-funchal-madeira-island-portugal-exotic-fruit-banana-mango-passion-avocado-colorful-food-159999458.jpg" alt="Exotic Assortment" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 style="text-align:center;">Get In Touch</h2>
+      <div class="card" style="background:rgba(255,255,255,0.15); color:white; text-align:center; padding:2rem; border-radius:12px; max-width:600px; margin:0 auto;">
+        <p><strong>Email:</strong> magnifiquekali@proton.me</p>
+        <p><strong>Phone/WhatsApp:</strong> +250 788 xxx xxx</p>
+        <p><strong>Location:</strong> Kigali, Rwanda</p>
+        <p>Ready to supply? Contact us for quotes, export inquiries, or partnerships!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <span class="close-cart" id="closeCart">&times;</span>
+      <h2>Your Shopping Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total">Total: $<span id="cartTotal">0.00</span></div>
+      <button style="background:#1a5c38; color:white; padding:1rem; width:100%; border:none; border-radius:8px; cursor:pointer; font-size:1.2rem;">Proceed to Checkout (Demo)</button>
+    </div>
+  </div>
+
+  <!-- Floating Cart Icon -->
+  <div class="cart-float" id="cartFloat">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartCount">0</span>
+  </div>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/+250788123456?text=Hello%20Magnifique%20Fruit%20Trading!%20I'm%20interested%20in%20your%20fresh%20fruits...%20You%20can%20also%20email%20me%20at%20magnifiquekali@proton.me" 
+     class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // Navigation
+    const links = document.querySelectorAll('.nav-link');
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        const sectionId = this.getAttribute('href').substring(1);
+        document.getElementById(sectionId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Shopping Cart
+    let cart = JSON.parse(localStorage.getItem('magnifiqueCart')) || [];
+
+    function saveCart() {
+      localStorage.setItem('magnifiqueCart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function renderCart() {
+      const cartItemsDiv = document.getElementById('cartItems');
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <p>$${item.price.toFixed(2)} × ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</p>
+          </div>
+          <button class="remove-item" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsDiv.appendChild(div);
+      });
+
+      document.getElementById('cartTotal').textContent = total.toFixed(2);
+    }
+
+    function addToCart(name, price, img) {
+      const existing = cart.find(i => i.name === name);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ name, price: parseFloat(price), img, quantity: 1 });
+      }
+      saveCart();
+      alert(`${name} added to cart!`);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      saveCart();
+      renderCart();
+    }
+
+    // Event Listeners
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.fruit-item');
+        addToCart(
+          item.dataset.name,
+          item.dataset.price,
+          item.dataset.img
+        );
+      });
+    });
+
+    document.getElementById('cartFloat').addEventListener('click', () => {
+      document.getElementById('cartModal').style.display = 'flex';
+      renderCart();
+    });
+
+    document.getElementById('closeCart').addEventListener('click', () => {
+      document.getElementById('cartModal').style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('cartModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('cartModal')) {
+        document.getElementById('cartModal').style.display = 'none';
+      }
+    });
+
+    // Initial load
+    updateCartCount();
+  </script>
+</body>
+</html>
